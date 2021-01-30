@@ -78,27 +78,25 @@
     </style>
 </head>
 
-<body>
+<body onload="setUpButton()">
 <!-- Left Panel -->
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="menu-title">
-                    <a href="index.html"><i class="menu-icon ti-layout-grid2"></i>Dashboard
-                    </a>
+                    <a href="index.html"><i class="menu-icon ti-layout-grid2"></i>Dashboard</a>
                 </li>
-                <li class="active">Analyze</li>
+                <li class="menu-title">Analyze</li>
                 <li>
-                    <a href="scan-page.html"><i class="menu-icon ti-pulse text  text-warning border-warning"></i>Scan</a>
+                    <a href="scan-page.html"><i class="menu-icon ti-pulse text"></i>Scan</a>
                 </li>
-                <li class="menu-title">Patients</li>
+                <li class="active">Patients</li>
                 <li>
-                    <a href="patients-page.html"><i class="menu-icon pe-7s-users"></i> Patients</a>
+                    <a href="patients-page.html"><i class="menu-icon pe-7s-users  text-warning border-warning"></i>
+                        Patients</a>
                 </li>
 
-            </ul>
-            </li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
@@ -223,14 +221,33 @@
         </div>
     </header>
     <!---HEADER ENDS HERE-->
-    <html>
+
+
+
+    <div class="patients-get">
+        <button class="patients-btn" type="button" id="add">
+            Show Patients
+        </button>
+    </div>
+
+    <div class="patients-table">
+
+    </div>
+
     <style>
         body {
             font-family: sans-serif;
             background-color: #eeeeee;
         }
 
-        .file-upload {
+        .patients-get {
+            background-color: #ffffff;
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .patients-table {
             background-color: #ffffff;
             width: 600px;
             margin: 0 auto;
@@ -252,20 +269,6 @@
             font-weight: 700;
         }
 
-        .scan-btn {
-            width: 100%;
-            margin: 0;
-            color: #fff;
-            background: #1FB264;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            border-bottom: 4px solid #15824B;
-            transition: all .2s ease;
-            outline: none;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
 
         .patients-btn:hover {
             background: #1AA059;
@@ -279,42 +282,6 @@
             transition: all .2s ease;
         }
 
-        .file-upload-content {
-            display: none;
-            text-align: center;
-        }
-
-        .file-upload-input {
-            position: absolute;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            outline: none;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .image-upload-wrap {
-            margin-top: 20px;
-            border: 4px dashed #1FB264;
-            position: relative;
-        }
-
-        .image-dropping,
-        .image-upload-wrap:hover {
-            background-color: #1FB264;
-            border: 4px dashed #ffffff;
-        }
-
-        .image-title-wrap {
-            padding: 0 15px 15px 15px;
-            color: #222;
-        }
-
-        .drag-text {
-            text-align: center;
-        }
 
         .drag-text h3 {
             font-weight: 100;
@@ -323,187 +290,46 @@
             padding: 60px 0;
         }
 
-        .file-upload-image {
-            max-height: 200px;
-            max-width: 200px;
-            margin: auto;
-            padding: 20px;
-        }
 
-        .remove-image {
-            width: 200px;
-            margin: 0;
-            color: #fff;
-            background: #cd4535;
-            border: none;
-            padding: 10px;
-            border-radius: 4px;
-            border-bottom: 4px solid #b02818;
-            transition: all .2s ease;
-            outline: none;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        .remove-image:hover {
-            background: #c13b2a;
-            color: #ffffff;
-            transition: all .2s ease;
-            cursor: pointer;
-        }
-
-        .remove-image:active {
-            border: 0;
-            transition: all .2s ease;
-        }
     </style>
 
-    <body onload="hideMusk()">
-    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <div class="file-upload">
-        <button class="patients-btn" type="button" id="add" onclick="$('.file-upload-input').trigger( 'click' )">Add
-            Image
-        </button>
-
-        <div class="image-upload-wrap">
-            <input class="file-upload-input" id="input" type='file' onchange="readURL(this);" accept="image/*"/>
-            <div class="drag-text">
-                <h3>Drag and drop a file or select add Image</h3>
-            </div>
-        </div>
-        <div class="file-upload-content" id="content">
-            <img class="file-upload-image" src="#" alt="your image"/>
-            <div class="image-title-wrap" id="wrap">
-                <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span>
-                </button>
-
-                <!---WE NEED AN ONCLICK FUNCTION HERE! THIS BUTON TRIGGERS THE SCRIPT THAT SENDS THE IMAGE TO THE ALGORITHM!-->
-
-                <button class="scan-btn" id="scan-btn" name="scan" style="padding-top:20px;margin-top:100px;"
-                        onclick="scan()">Scan
-                </button>
-                <div id="elon">
-                    <style>
-                        .spinner {
-                            width: 50px;
-                            height: 50px;
-
-                            position: absolute;
-                            margin: 10px auto;
-                        }
-
-                        .double-bounce1, .double-bounce2 {
-                            width: 100%;
-                            height: 100%;
-                            border-radius: 50%;
-                            background-color: #7a4b9e;
-                            opacity: 0.86;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-
-                            -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-                            animation: sk-bounce 2.0s infinite ease-in-out;
-                        }
-
-                        .double-bounce2 {
-                            -webkit-animation-delay: -1.0s;
-                            animation-delay: -1.0s;
-                        }
-
-                        @-webkit-keyframes sk-bounce {
-                            0%, 100% {
-                                -webkit-transform: scale(0.0)
-                            }
-                            50% {
-                                -webkit-transform: scale(1.0)
-                            }
-                        }
-
-                        @keyframes sk-bounce {
-                            0%, 100% {
-                                transform: scale(0.0);
-                                -webkit-transform: scale(0.0);
-                            }
-                            50% {
-                                transform: scale(1.0);
-                                -webkit-transform: scale(1.0);
-                            }
-                        }
-                    </style>
-                    <div class="spinner">
-                        <div class="double-bounce1"></div>
-                        <div class="double-bounce2"></div>
-                        <div width="auto">
-                            <img src="https://i.imgur.com/WBMjva4.png" width="100" length="100"
-                                 style="margin:auto;position:absolute;padding-left:50px;padding-top:50px"></img>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="reeve" id="musk">
-        <center><p style="font-size:30px;color:black">Scanning...
-            <p></center>
-    </div>
-    </body>
-    </html>
 
 
     <script>
-        function hideMusk() {
-            document.getElementById("musk").style.visibility = "hidden";
+        function setUpButton() {
+            //TODO fix this
+            let selectedFile;
+            console.log(window.XLSX);
+            document.getElementById('input').addEventListener("change", (event) => {
+                selectedFile = event.target.files[0];
+            })
+
+            let data = [{
+                "name": "jayanth",
+                "data": "scd",
+                "abc": "sdef"
+            }]
+
+
+            document.getElementById('patients-btn').addEventListener("click", () => {
+                XLSX.utils.json_to_sheet(data, 'out.xlsx');
+                if (selectedFile) {
+                    let fileReader = new FileReader();
+                    fileReader.readAsBinaryString(selectedFile);
+                    fileReader.onload = (event) => {
+                        let data = event.target.result;
+                        let workbook = XLSX.read(data, {type: "binary"});
+                        console.log(workbook);
+                        workbook.SheetNames.forEach(sheet => {
+                            let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+                            console.log(rowObject);
+                            document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject, undefined, 4)
+                        });
+                    }
+                }
+            });
         }
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('.image-upload-wrap').hide();
-                    $('file-upload').hide();
-                    document.getElementById("elon").style.visibility = "hidden";
-                    document.getElementById("musk").style.visibility = "hidden";
-
-                    $('.file-upload-image').attr('src', e.target.result);
-                    $('.file-upload-content').show();
-
-                    $('.image-title').html(input.files[0].name);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-
-            } else {
-                removeUpload();
-            }
-        }
-
-        //TODO this function
-        function scan() {
-            document.getElementById("elon").style.visibility = "visible";
-            document.getElementById("musk").style.visibility = "visible";
-            document.getElementById("add").style.visibility = "hidden";
-            document.getElementById("input").style.visibility = "hidden";
-            document.getElementById("content").style.visibility = "hidden";
-            document.getElementById("wrap").style.visibility = "hidden";
-
-
-        }
-
-        function removeUpload() {
-            $('.file-upload-input').replaceWith($('.file-upload-input').clone());
-            $('.file-upload-content').hide();
-            $('.image-upload-wrap').show();
-        }
-
-        $('.image-upload-wrap').bind('dragover', function () {
-            $('.image-upload-wrap').addClass('image-dropping');
-        });
-        $('.image-upload-wrap').bind('dragleave', function () {
-            $('.image-upload-wrap').removeClass('image-dropping');
-        });
     </script>
 </div>
 </body>
