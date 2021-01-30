@@ -1,0 +1,15 @@
+{
+  "name": "Meloria",
+  "version": "1.0.0",
+  "description": "A Desktop Application For Diagnosing Alzheimer's Disease ^ years prior to sever condition.",
+  "main": "main.js",
+  "scripts": {
+	"start": "electron ."
+  },
+  "keywords": [],
+  "author": "Dylan Clayton- Splurket",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^11.2.1"
+  }
+}
