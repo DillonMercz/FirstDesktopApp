@@ -6,7 +6,7 @@
 <!--[if IE 8]>
 <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js" lang=""> <!--<![endif]-->
+<html class="no-js" lang="en"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,7 +32,13 @@
 
     <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet"/>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+    <title>Convert excel to JSON Object</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
     <style>
         #weatherWidget .currentDesc {
             color: #ffffff !important;
@@ -76,48 +82,59 @@
         }
 
     </style>
+    <style>
+        th, td, p, input {
+            font:14px Verdana;
+        }
+        table, th, td
+        {
+            border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 2px 3px;
+            text-align: center;
+        }
+        th {
+            font-weight:bold;
+        }
+    </style>
 </head>
 
-<body onload="setUpButton()">
-<!-- Left Panel -->
+<body>
 <aside id="left-panel" class="left-panel">
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="menu-title">
-                    <a href="index.html"><i class="menu-icon ti-layout-grid2"></i>Dashboard</a>
+                    <a href="index.html"><i class="menu-icon ti-layout-grid2"></i>Dashboard
+                    </a>
                 </li>
                 <li class="menu-title">Analyze</li>
                 <li>
-                    <a href="scan-page.html"><i class="menu-icon ti-pulse text"></i>Scan</a>
+                    <a href="scan-page.html"><i class="menu-icon ti-pulse text  "></i>Scan</a>
                 </li>
                 <li class="active">Patients</li>
                 <li>
-                    <a href="patients-page.html"><i class="menu-icon pe-7s-users  text-warning border-warning"></i>
-                        Patients</a>
+                    <a href="patients-page.html"><i class="menu-icon pe-7s-users text-warning border-warning"></i> Patients</a>
                 </li>
 
             </ul>
+
+
         </div><!-- /.navbar-collapse -->
     </nav>
 </aside>
-<!-- /#left-panel -->
-<!-- Right Panel -->
+
 <div id="right-panel" class="right-panel">
     <!-- Header-->
     <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
-                <a style="position:absolute;margin-left:210px;" class="menutoggle" id="menuToggle"><i
-                        class="fa fa-bars"></i></a>
-                <a class="navbar-brand" href="index.html" style="margin:auto;"><img height="38" width="38"
-                                                                                    alt="Meliora logo"
-                                                                                    src="images/logo2.png"
-                                                                                    style="float:left">
+                <a style="position:absolute;margin-left:210px;" class="menutoggle" id="menuToggle"><i class="fa fa-bars"></i></a>
+                <a class="navbar-brand" href="index.html" style="margin:auto;"><img height="38" width="38" alt="Meliora logo" src="images/logo2.png" style="float:left">
                     <p style="float:left;padding-left:20px;padding-top:9px; font-family: 'Roboto', sans-serif;; color:#7A4B9E; font-size:30px;">
                         MELIORA</p>
-                    <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
-                </a>
+                </a><a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+
             </div>
         </div>
         <div class="top-right">
@@ -126,15 +143,13 @@
                     <button class="search-trigger"><i class="fa fa-search"></i></button>
                     <div class="form-inline">
                         <form class="search-form">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search ..."
-                                   aria-label="Search">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
                             <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                         </form>
                     </div>
 
                     <div class="dropdown for-notification">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
                             <span class="count bg-danger">3</span>
                         </button>
@@ -156,8 +171,7 @@
                     </div>
 
                     <div class="dropdown for-message">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-envelope"></i>
                             <span class="count bg-primary">4</span>
                         </button>
@@ -200,16 +214,14 @@
                 </div>
 
                 <div class="user-area dropdown float-right">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
                     </a>
 
                     <div class="user-menu dropdown-menu">
                         <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
-                        <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span
-                                class="count">13</span></a>
+                        <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
 
                         <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
@@ -222,17 +234,339 @@
     </header>
     <!---HEADER ENDS HERE-->
 
+    <style>
+        body {
+            display: table;
+            font-family: "Open Sans", sans-serif;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .file-upload {
+            background-color: #ffffff;
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .patients-btn {
+            width: 100%;
+            margin: 0;
+            color: #fff;
+            background: #1FB264;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #15824B;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .scan-btn {
+            width: 100%;
+            margin: 0;
+            color: #fff;
+            background: #1FB264;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #15824B;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .patients-btn:hover {
+            background: #1AA059;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .patients-btn:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+        .file-upload-content {
+            display: none;
+            text-align: center;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            outline: none;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .image-upload-wrap {
+            margin-top: 20px;
+            border: 4px dashed #1FB264;
+            position: relative;
+        }
+
+        .image-dropping,
+        .image-upload-wrap:hover {
+            background-color: #1FB264;
+            border: 4px dashed #ffffff;
+        }
+
+        .image-title-wrap {
+            padding: 0 15px 15px 15px;
+            color: #222;
+        }
+
+        .drag-text {
+            text-align: center;
+        }
+
+        .drag-text h3 {
+            font-weight: 100;
+            text-transform: uppercase;
+            color: #15824B;
+            padding: 60px 0;
+        }
+
+        .file-upload-image {
+            max-height: 200px;
+            max-width: 200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .remove-image {
+            width: 200px;
+            margin: 0;
+            color: #fff;
+            background: #cd4535;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            border-bottom: 4px solid #b02818;
+            transition: all .2s ease;
+            outline: none;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .remove-image:hover {
+            background: #c13b2a;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .remove-image:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+        table, th, td {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: transparent;
+            border-collapse: collapse;
+            border-spacing: 2px;
+            border-color: grey;
+        }
+    </style>
 
 
-    <div class="patients-get">
-        <button class="patients-btn" type="button" id="add">
-            Show Patients
-        </button>
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <div class="file-upload">
+        <label for="avatar">Choose an Excel or CSV file:</label>
+        <input type="file" id="docpicker" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
+
+        <div id="dataviewer">
+        </div>
+        <p id="showData"></p>
+    </div>
+    <div class="reeve" id="musk" style="visibility: hidden;">
+        <center><p style="font-size:30px;color:black">Scanning...
+        </p><p></p></center>
     </div>
 
-    <div class="patients-table">
 
-    </div>
+
+
+    <script>
+        function hideMusk() {
+            document.getElementById("musk").style.visibility = "hidden";
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.image-upload-wrap').hide();
+                    $('file-upload').hide();
+                    document.getElementById("elon").style.visibility = "hidden";
+                    document.getElementById("musk").style.visibility = "hidden";
+
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+
+                    $('.image-title').html(input.files[0].name);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+            } else {
+                removeUpload();
+            }
+        }
+
+        //TODO this function
+        function scan() {
+            document.getElementById("elon").style.visibility = "visible";
+            document.getElementById("musk").style.visibility = "visible";
+            document.getElementById("add").style.visibility = "hidden";
+            document.getElementById("input").style.visibility = "hidden";
+            document.getElementById("content").style.visibility = "hidden";
+            document.getElementById("wrap").style.visibility = "hidden";
+
+
+        }
+
+        function removeUpload() {
+            $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.file-upload-content').hide();
+            $('.image-upload-wrap').show();
+        }
+
+        $('.image-upload-wrap').bind('dragover', function () {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+        $('.image-upload-wrap').bind('dragleave', function () {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+    </script>
+</div>
+
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+
+<script>
+    var file = document.getElementById('docpicker')
+    var viewer = document.getElementById('dataviewer')
+    file.addEventListener('change', importFile);
+
+    function importFile(evt) {
+        var f = evt.target.files[0];
+
+        if (f) {
+            var r = new FileReader();
+            r.onload = e => {
+                var contents = processExcel(e.target.result);
+                console.log(contents)
+            }
+            r.readAsBinaryString(f);
+        } else {
+            console.log("Failed to load file");
+        }
+    }
+
+    function processExcel(data) {
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+
+        var firstSheet = workbook.SheetNames[0];
+        var myBooks = to_json(workbook).split(/\r?\n|\r/g);
+        console.log("B: " + myBooks)
+        let numOfCols = 0
+        let incrNumOfCols = true
+
+        var booksToRemove = []
+        for (let i = 0; i < myBooks.length; i++) {
+            myBooks[i] = myBooks[i].replace(/\s|,/g, '');
+            if (myBooks[i].includes("{") || myBooks[i].includes("[") ||
+                myBooks[i].includes("]") || myBooks[i].includes("}")) {
+                booksToRemove.push(myBooks[i])
+                if (myBooks[i].includes("]")) {
+                    incrNumOfCols = false
+                }
+            } else {
+                if (incrNumOfCols) {
+                    numOfCols++
+                }
+            }
+        }
+        console.log("Num of col: " + numOfCols)
+        for (let i = 0; i < booksToRemove.length; i++) {
+            myBooks.splice(myBooks.indexOf(booksToRemove[i], 0), 1)
+        }
+
+        let numOfRows = myBooks.length / numOfCols
+        console.log("Num of row: " + numOfRows)
+
+        console.log("A:" + myBooks)
+        // EXTRACT VALUE FOR HTML HEADER.
+        // ('Book ID', 'Book Name', 'Category' and 'Price')
+        var col = [];
+        for (var i = 0; i < 3; i++) {
+            for (var key in myBooks[i + 3]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        // CREATE DYNAMIC TABLE.
+        var table = document.createElement("table");
+
+        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+        var tr = table.insertRow(-1);                   // TABLE ROW.
+
+        for (var i = 0; i < numOfCols; i++) {
+            var th = document.createElement("th");      // TABLE HEADER.
+            th.innerHTML = myBooks[i];
+            tr.appendChild(th);
+        }
+
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 1; i < numOfRows; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (var j = 0; j < numOfCols; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = myBooks[i * numOfCols + j];
+            }
+        }
+
+        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        var divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    };
+
+    function to_json(workbook) {
+        var result = {};
+        workbook.SheetNames.forEach(function(sheetName) {
+            var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+                header: 1
+            });
+            if (roa.length) result[sheetName] = roa;
+        });
+        return JSON.stringify(result, 2, 2);
+    };
+
+</script>
+
 
     <style>
         body {
@@ -295,42 +629,5 @@
 
 
 
-    <script>
-        function setUpButton() {
-            //TODO fix this
-            let selectedFile;
-            console.log(window.XLSX);
-            document.getElementById('input').addEventListener("change", (event) => {
-                selectedFile = event.target.files[0];
-            })
 
-            let data = [{
-                "name": "jayanth",
-                "data": "scd",
-                "abc": "sdef"
-            }]
-
-
-            document.getElementById('patients-btn').addEventListener("click", () => {
-                XLSX.utils.json_to_sheet(data, 'out.xlsx');
-                if (selectedFile) {
-                    let fileReader = new FileReader();
-                    fileReader.readAsBinaryString(selectedFile);
-                    fileReader.onload = (event) => {
-                        let data = event.target.result;
-                        let workbook = XLSX.read(data, {type: "binary"});
-                        console.log(workbook);
-                        workbook.SheetNames.forEach(sheet => {
-                            let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
-                            console.log(rowObject);
-                            document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject, undefined, 4)
-                        });
-                    }
-                }
-            });
-        }
-
-    </script>
-</div>
-</body>
 </html>
