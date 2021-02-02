@@ -491,7 +491,7 @@
 
         var booksToRemove = []
         for (let i = 0; i < myBooks.length; i++) {
-            myBooks[i] = myBooks[i].replace(/\s|,/g, '');
+            myBooks[i] = myBooks[i].replace(/\s/g, '');
             if (myBooks[i].includes("{") || myBooks[i].includes("[") ||
                 myBooks[i].includes("]") || myBooks[i].includes("}")) {
                 booksToRemove.push(myBooks[i])
@@ -533,7 +533,7 @@
 
         for (var i = 0; i < numOfCols; i++) {
             var th = document.createElement("th");      // TABLE HEADER.
-            th.innerHTML = myBooks[i];
+            th.innerHTML = myBooks[i].replace(/,/g, '');
             tr.appendChild(th);
         }
 
@@ -544,7 +544,16 @@
 
             for (var j = 0; j < numOfCols; j++) {
                 var tabCell = tr.insertCell(-1);
-                tabCell.innerHTML = myBooks[i * numOfCols + j];
+                var res = myBooks[i * numOfCols + j]
+                console.log("res:" + res)
+                if (res.startsWith('"data:image')) {
+                    var tag = '<img src=' + res + '/>'
+                    res = tag
+                    console.log("tag:" + tag)
+                } else {
+                    res = res.replace(/,/g, '')
+                }
+                tabCell.innerHTML = res
             }
         }
 
@@ -552,6 +561,9 @@
         var divContainer = document.getElementById("showData");
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
+
+        ////////////////////
+
     };
 
     function to_json(workbook) {
